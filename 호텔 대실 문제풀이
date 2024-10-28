@@ -1,0 +1,25 @@
+function calcTime(time, clean = 0) {
+    return (time.slice(0, 2) * 60) + parseInt(time.slice(3)) + clean;
+}
+
+function solution(book_time) {
+    let answer = 0;
+    book_time.sort();
+    
+    let currIdx = 0;
+    while (book_time.length > 0) {
+        answer++;
+        let checkOut = calcTime(book_time[currIdx][1], 10);
+        book_time.shift();
+        for (let i = 0; i < book_time.length; ++i) {
+            let checkIn = calcTime(book_time[i][0]);
+            if (checkOut <= checkIn) {
+                checkOut = calcTime(book_time[i][1], 10);
+                book_time.splice(i, 1);
+                i--;
+            }
+        }
+    }
+    
+    return answer;
+}
